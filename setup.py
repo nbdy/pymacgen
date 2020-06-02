@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     long_description=open("README.rst", "r").read(),
     name="pymacgen",
-    version="0.2",
+    version="0.3",
     description="generate mac addresses",
     author="Pascal Eberlein",
     author_email="pascal@eberlein.io",
