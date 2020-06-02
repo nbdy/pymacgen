@@ -46,3 +46,6 @@ class MACGenerator(object):
     @staticmethod
     def by_mac(mac: str):
         return MACGenerator._generate_from_prefix(mac.replace(":", "")[0:6])
+
+
+__all__ = ["MACGenerator"]

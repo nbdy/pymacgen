@@ -15,7 +15,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.7',
     ],
-    keywords="mac generator",
+    keywords="mac generator oui",
     packages=find_packages(),
     include_package_data=True,
     entry_points={'console_scripts': ['pymacgen = pymacgen.__main__:main']},

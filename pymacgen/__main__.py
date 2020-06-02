@@ -13,24 +13,24 @@ def main():
     ap.add_argument("-cc", "--country-code", help="search by country code")
     ap.add_argument("-g", "--generate", help="generate a random mac address or by found prefix")
     a = ap.parse_args()
-    mg = MACGenerator(a.oui, a.debug)
 
+    mg = MACGenerator(a.oui, a.debug)
     i = None
     if a.organization_name is not None:
         i = mg.by_organization(a.organization)
     elif a.mac_prefix is not None:
         i = mg.by_prefix(a.mac_prefix)
     elif a.country_name is not None:
-        i = mg.by_country(a.country_name)
+        i = mg.by_country_name(a.country_name)
     elif a.country_code is not None:
-        i = mg.by_
+        i = mg.by_country_code(a.country_code)
 
     if i is None:
         log.error("could not find mac info")
         exit()
 
     if a.generate:
-        pass  # todo
+        print(i)
 
 
 if __name__ == '__main__':
