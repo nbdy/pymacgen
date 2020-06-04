@@ -1,4 +1,5 @@
 from pyoui import OUI, OuiEntry
+from loguru import logger as log
 from string import hexdigits
 from random import choice
 
@@ -22,7 +23,9 @@ class MACGenerator(object):
         return r.upper()
 
     @classmethod
-    def _generate_from_prefix(cls, prefix: str):
+    def _generate_from_prefix(cls, prefix):
+        if isinstance(prefix, OuiEntry):
+            prefix = prefix.prefix
         if not prefix.endswith(":"):
             prefix += ":"
         return prefix + cls._generate_last_six()
@@ -33,19 +36,27 @@ class MACGenerator(object):
     def by_organization(self, name):  # todo by best matching
         return self._generate_from_entry(list(self.oui.by_organization(name))[0])
 
-    @staticmethod
-    def by_prefix(prefix):
-        return MACGenerator._generate_from_prefix(prefix)
+    @classmethod
+    def by_mac(cls, mac: str):
+        return cls._generate_from_prefix(mac[0:8])
+
+    @classmethod
+    def by_prefix(cls, prefix):
+        return cls._generate_from_prefix(prefix)
 
     def by_country_name(self, name):
-        return self._generate_from_entry(list(self.oui.by_country_code(name))[0])
+        try:
+            return self._generate_from_entry(list(self.oui.by_country_name(name))[0])
+        except IndexError:
+            log.error("could not find any entries by country name '{0}'.".format(name))
+            return None
 
     def by_country_code(self, code):
-        return self._generate_from_prefix(list(self.oui.by_country_code(code))[0])
-
-    @staticmethod
-    def by_mac(mac: str):
-        return MACGenerator._generate_from_prefix(mac.replace(":", "")[0:6])
+        try:
+            return self._generate_from_prefix(list(self.oui.by_country_code(code))[0])
+        except IndexError:
+            log.error("could not find any entries by country code '{0}'.".format(code))
+            return None
 
 
 __all__ = ["MACGenerator"]
