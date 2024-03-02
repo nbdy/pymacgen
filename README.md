@@ -1,16 +1,22 @@
 ## pymacgen
+
 generates mac addresses
+
 ### how to..
+
 #### ... install
+
 ```shell script
 # from pypi
 pip3 install pymacgen
 # from github
-pip3 install git+https://github.com/smthnspcl/pymacgen
+pip3 install git+https://github.com/nbdy/pymacgen
 # if this repo has been cloned
 pip3 install .
 ```
+
 #### ... use from cli
+
 ```shell script
 pymacgen --help
 usage: pymacgen [-h] [-o OUI] [-d] [-on ORGANIZATION_NAME] [-mp MAC_PREFIX] [-cn COUNTRY_NAME] [-g GENERATE]
@@ -27,9 +33,10 @@ optional arguments:
                         search by country name; case insensitive
   -g GENERATE, --generate GENERATE
                         generate a random mac address or by found prefix
-
 ```
+
 #### ... use from code
+
 ```python
 from pymacgen import MACGenerator
 
@@ -51,5 +58,4 @@ print(m.by_country_code("CN"))
 # by country code examples
 print(m.by_country_name("Germany"))
 print(m.by_country_name("China"))
-
 ```

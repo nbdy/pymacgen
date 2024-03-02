@@ -7,7 +7,7 @@ setup(
     description="generate mac addresses",
     author="Pascal Eberlein",
     author_email="pascal@eberlein.io",
-    url="https://github.com/smthnspcl/pymacgen",
+    url="https://github.com/nbdy/pymacgen",
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',

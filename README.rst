@@ -18,7 +18,7 @@ how to..
    # from pypi
    pip3 install pymacgen
    # from github
-   pip3 install git+https://github.com/smthnspcl/pymacgen
+   pip3 install git+https://github.com/nbdy/pymacgen
    # if this repo has been cloned
    pip3 install .
 
