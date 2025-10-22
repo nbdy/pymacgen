@@ -1,7 +1,6 @@
 from pyoui import OUI, OuiEntry
 from loguru import logger as log
-from string import hexdigits
-from random import choice
+from random import getrandbits
 
 
 class MACGenerator(object):
@@ -14,13 +13,8 @@ class MACGenerator(object):
 
     @staticmethod
     def _generate_last_six():
-        r = ""
-        for i in range(6):
-            r += choice(hexdigits)
-            if (i % 2) == 1:
-                r += ":"
-        r = r[0:-1]
-        return r.upper()
+        # Generate three random octets as uppercase hex pairs separated by ':'
+        return ":".join(f"{getrandbits(8):02X}" for _ in range(3))
 
     @classmethod
     def _generate_from_prefix(cls, prefix):
@@ -33,8 +27,12 @@ class MACGenerator(object):
     def _generate_from_entry(self, e: OuiEntry):
         return self._generate_from_prefix(e.prefix)
 
-    def by_organization(self, name):  # todo by best matching
-        return self._generate_from_entry(list(self.oui.by_organization(name))[0])
+    def by_organization(self, name):
+        e = next(iter(self.oui.by_organization(name)), None)
+        if e is None:
+            log.error("could not find any entries by organization '{0}'.".format(name))
+            return None
+        return self._generate_from_entry(e)
 
     @classmethod
     def by_mac(cls, mac: str):
@@ -45,18 +43,18 @@ class MACGenerator(object):
         return cls._generate_from_prefix(prefix)
 
     def by_country_name(self, name):
-        try:
-            return self._generate_from_entry(list(self.oui.by_country_name(name))[0])
-        except IndexError:
+        e = next(iter(self.oui.by_country_name(name)), None)
+        if e is None:
             log.error("could not find any entries by country name '{0}'.".format(name))
             return None
+        return self._generate_from_entry(e)
 
     def by_country_code(self, code):
-        try:
-            return self._generate_from_prefix(list(self.oui.by_country_code(code))[0])
-        except IndexError:
+        e = next(iter(self.oui.by_country_code(code)), None)
+        if e is None:
             log.error("could not find any entries by country code '{0}'.".format(code))
             return None
+        return self._generate_from_entry(e)
 
 
 __all__ = ["MACGenerator"]
