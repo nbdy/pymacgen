@@ -1,41 +1,23 @@
 ## pymacgen
 
-generates mac addresses
+Generate MAC addresses from OUIs or prefixes.
 
-### how to..
+### Installation
 
-#### ... install
+- Using pip (PyPI):
+  - pip install pymacgen
+- Using uv:
+  - uv add pymacgen
 
-```shell script
-# from pypi
-pip3 install pymacgen
-# from github
-pip3 install git+https://github.com/nbdy/pymacgen
-# if this repo has been cloned
-pip3 install .
-```
+### CLI
 
-#### ... use from cli
+Run the built-in help to see available options:
 
-```shell script
+```sh
 pymacgen --help
-usage: pymacgen [-h] [-o OUI] [-d] [-on ORGANIZATION_NAME] [-mp MAC_PREFIX] [-cn COUNTRY_NAME] [-g GENERATE]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -o OUI, --oui OUI     path to oui file; will be downloaded if not found
-  -d, --debug           enable debugging
-  -on ORGANIZATION_NAME, --organization-name ORGANIZATION_NAME
-                        search by organization name; case insensitive
-  -mp MAC_PREFIX, --mac-prefix MAC_PREFIX
-                        search by mac prefix; 00-00-00 or 00:00:00 or 000000
-  -cn COUNTRY_NAME, --country-name COUNTRY_NAME
-                        search by country name; case insensitive
-  -g GENERATE, --generate GENERATE
-                        generate a random mac address or by found prefix
 ```
 
-#### ... use from code
+### Python usage
 
 ```python
 from pymacgen import MACGenerator
