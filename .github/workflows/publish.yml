@@ -1,0 +1,35 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build package (sdist and wheel)
+        run: uv build
+
+      - name: Publish to PyPI (trusted publishing)
+        uses: pypa/gh-action-pypi-publish@v1
+        with:
+          # The action will discover distributions in ./dist
+          # No PyPI token is needed; uses OIDC via id-token permission
+          verbose: true
