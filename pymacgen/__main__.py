@@ -11,12 +11,12 @@ def main():
     ap.add_argument("-mp", "--mac-prefix", help="search by mac prefix; 00-00-00 or 00:00:00 or 000000")
     ap.add_argument("-cn", "--country-name", help="search by country name; case insensitive")
     ap.add_argument("-cc", "--country-code", help="search by country code")
-    ap.add_argument("-g", "--generate", help="generate a random mac address or by found prefix")
+    ap.add_argument("-g", "--generate", action="store_true", help="generate and print a MAC address using the found prefix")
     a = ap.parse_args()
 
     mg = MACGenerator(a.oui, a.debug)
     i = None
-    if a.organization_name is not None:
+    if a.organization is not None:
         i = mg.by_organization(a.organization)
     elif a.mac_prefix is not None:
         i = mg.by_prefix(a.mac_prefix)
@@ -27,10 +27,10 @@ def main():
 
     if i is None:
         log.error("could not find mac info")
-        exit()
+        exit(1)
 
-    if a.generate:
-        print(i)
+    # Always print the generated MAC once found; the --generate flag is kept for compatibility
+    print(i)
 
 
 if __name__ == '__main__':
